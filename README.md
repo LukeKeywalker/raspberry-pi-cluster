@@ -82,7 +82,9 @@ sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 master node assumed to have ip `192.168.1.16`
 
 ## create master node
-master node assumed to have ip `192.168.1.16`
+```
+k3sup install --cluster --ip 192.168.1.16 --user root --ssh-key ~/.ssh/rpi-cluster 
+```
 
 ## join worker nodes to the cluster
 ```
