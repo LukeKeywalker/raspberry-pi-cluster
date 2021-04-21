@@ -77,3 +77,15 @@ setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 ```
 
+# Creating K3S cluster with K3Sup
+
+master node assumed to have ip `192.168.1.16`
+
+## create master node
+master node assumed to have ip `192.168.1.16`
+
+## join worker nodes to the cluster
+```
+for i in {1..5}; do k3sup join --ip 192.168.1.1${i} --user root --ssh-key ~/.ssh/rpi-cluster --server-user root --server-ip 192.168.1.16; done
+```
+
