@@ -11,7 +11,7 @@ cleanup()
 	/bin/rm -f /etc/crontab
 
 	# restore crontab file without first boot entry
-	/bin/mv /etc/crontab.tmp /etc/crontab
+	/bin/mv -f /etc/crontab.tmp /etc/crontab
 
 	# remove first boot scripts
 	rm -rf /root/first-boot/
@@ -24,11 +24,13 @@ expand_filesystem()
 
 create_user()
 {
+	# create user
 	useradd --create-home\
 		--groups wheel\
 		--shell /bin/bash\
-		$1
-	echo "$1:qwert" | chpasswd
+		${1}
+	# set default password
+	echo "${1}:${2}" | chpasswd
 }
 
 add_master_node_firewall_rules()
@@ -70,20 +72,55 @@ disable_selinux()
 
 update_cgroup_memory_settings()
 {
-	sed '$s/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/cmdline.txt > cmdline.tmp
-	mv cmdline.tmp /boot/cmdline.txt
+        # attach to the end of the line with sed and
+        # store result in temporary file
+        sed '$s/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/cmdline.txt > cmdline.tmp
+
+        # move file with attached cgroup settings back
+        # to /boot/cmdline.txt
+        mv -f cmdline.tmp /boot/cmdline.txt
 }
 
 set_master_node_hostname()
 {
-	hostnamectl set-hostname master-node-$1
+	hostnamectl set-hostname master-${1}
 }
 
 set_worker_node_hostname()
 {
-	hostnamectl set-hostname worker-node-$1
+	hostnamectl set-hostname worker-${1}
+}
+
+add_hosts()
+{
+	num_master_nodes=${1}
+	num_worker_nodes=${2}
+
+	add_master_nodes_hosts ${num_master_nodes}
+	add_worker_nodes_hosts ${num_master_nodes} ${num_worker_nodes}
+}
+
+add_master_nodes_hosts()
+{
+	# assumes that all cluster nodes have static ips
+	# assigned in range 192.168.1.11-19
+	num_master_nodes=${1}
+
+	for (( i=1; i<=${num_master_nodes}; i++ ))
+	do
+		echo "192.168.1.1${i}	master-${i}.k3s.local	master-${i}" >> /etc/hosts
+	done
 }
 
 add_worker_nodes_hosts()
 {
+	# assumes that all cluster nodes have static ips
+	# assigned in range 192.168.1.11-19
+	num_master_nodes=${1}
+	num_worker_nodes=${2}
+	
+	for (( i=1; i<=${num_worker_nodes}; i++ ))
+	do
+		echo "192.168.1.1$((${i}+${num_master_nodes}))	worker-${i}.k3s.local	worker-${i}" >> /etc/hosts
+	done
 }

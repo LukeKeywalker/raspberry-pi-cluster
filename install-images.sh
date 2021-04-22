@@ -1,7 +1,13 @@
+##################################################
+# script for provisioning sd cards for the k8s   #
+# nodes with CentOS 7 as a host operating system #
+##################################################
+
 #!/bin/bash
 
 image_file=$1
-num_nodes=$2
+num_master_nodes=$2
+num_worker_nodes=$3
 
 image_mountpoint='/mnt/centos'
 image_root_partition='/dev/mmcblk0p3'
@@ -11,35 +17,24 @@ script_dir=$(dirname $0)
 
 banner() 
 {
-	echo '█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗'
-	echo '╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝'
-	echo '                                                                                                                  '
-	echo '                                                                                                                  '
-	echo '                                                                                                                  '
-	echo '                             ██████╗██╗     ██╗   ██╗███████╗████████╗███████╗██████╗                             '
-	echo '▄ ██╗▄▄ ██╗▄▄ ██╗▄▄ ██╗▄    ██╔════╝██║     ██║   ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ▄ ██╗▄▄ ██╗▄▄ ██╗▄▄ ██╗▄'
-	echo ' ████╗ ████╗ ████╗ ████╗    ██║     ██║     ██║   ██║███████╗   ██║   █████╗  ██████╔╝     ████╗ ████╗ ████╗ ████╗'
-	echo '▀╚██╔▀▀╚██╔▀▀╚██╔▀▀╚██╔▀    ██║     ██║     ██║   ██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ▀╚██╔▀▀╚██╔▀▀╚██╔▀▀╚██╔▀'
-	echo '  ╚═╝   ╚═╝   ╚═╝   ╚═╝     ╚██████╗███████╗╚██████╔╝███████║   ██║   ███████╗██║  ██║      ╚═╝   ╚═╝   ╚═╝   ╚═╝ '
-	echo '                             ╚═════╝╚══════╝ ╚═════╝ ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝                            '
-	echo '                                                                                                                  '
-	echo '██╗███╗   ███╗ █████╗  ██████╗ ███████╗    ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗  '
-	echo '██║████╗ ████║██╔══██╗██╔════╝ ██╔════╝    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗ '
-	echo '██║██╔████╔██║███████║██║  ███╗█████╗      ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝ '
-	echo '██║██║╚██╔╝██║██╔══██║██║   ██║██╔══╝      ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗ '
-	echo '██║██║ ╚═╝ ██║██║  ██║╚██████╔╝███████╗    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║ '
-	echo '╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝ '
-	echo '                                                                                                                  '
-	echo '                                                                                                                  '
-	echo '                                                                                                                  '
-	echo '█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗'
-	echo '╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝'
+	echo -e "$(tput setaf 2)
+   .~~.   .~~.
+  '. \ ' ' / .'$(tput setaf 1)
+   .~ .~~~..~.
+  : .~.'~'.~. :
+ ~ (   ) (   ) ~   $(tput sgr0)Raspberry Pi 4 cluster$(tput setaf 1)
+( : '~'.~.'~' : )  $(tput sgr0)CentOS image installer$(tput setaf 1)
+ ~ .~ (   ) ~. ~
+  (  : '~' :  )
+   '~ .~~~. ~'  
+       '~'
+$(tput sgr0)"
 }
 
 
 print_usage() 
 {
-	echo "usage: $0 image_file num_nodes" 
+	echo "usage: $0 image_file num_master_nodes num_worker_nodes" 
 }
 
 parse_arguments() 
@@ -52,7 +47,13 @@ parse_arguments()
 		exit 1
 	fi
 
-	if [ -z "${num_nodes}" ] || ! [[ ${num_nodes} =~ ${num_re}  ]]
+	if [ -z "${num_master_nodes}" ] || ! [[ ${num_master_nodes} =~ ${num_re}  ]]
+	then
+		print_usage
+		exit 1
+	fi
+
+	if [ -z "${num_worker_nodes}" ] || ! [[ ${num_worker_nodes} =~ ${num_re}  ]]
 	then
 		print_usage
 		exit 1
@@ -71,7 +72,6 @@ mount_image()
 
 unmount_image() 
 {
-
 	# flush card writes before unmounting
 	sync
 
@@ -91,21 +91,39 @@ copy_image()
 
 install_first_run_script() 
 {
+	node=${1}
+	num_master_nodes=${2}
+	num_worker_nodes=${3}
+	
 	# copy first run configuration script to
 	# the root folder, it will be picked up from
 	# there on the first boot by the cron job.
 	# first-boot.sh script will then remove itself
 	# from crontab and disk after running
 	echo "installing first run script"
+	first_boot_dir=${image_mountpoint}/root/first-boot/
+	cp -r ${script_dir}/first-boot/ ${first_boot_dir}
 
-	cp -r ${script_dir}/first-boot/ ${image_mountpoint}/root/first-boot/
+	# those envs will be used to let node know if it's
+	# master or worker node in order to select appropriate
+	# setup steps during the first boot
+	echo "configuring setup environment variables"
+	envs=${first_boot_dir}/envs.sh
+	echo "export NODE=${node}" > ${envs}
+	echo "export NUM_MASTER_NODES=${num_master_nodes}" >> ${envs}
+	echo "export NUM_WORKER_NODES=${num_worker_nodes}" >> ${envs}
 
 	# define first boot cron job
+	echo "setting up first run cron job"
 	echo "@reboot root /bin/bash /root/first-boot/setup.sh" >> ${image_mountpoint}/etc/crontab
 }
 
 install_image() 
 {
+	node=${1}
+	num_master_nodes=${2}
+	num_worker_nodes=${3}
+
 	copy_image
 
 	if [ $? -ne 0 ]; then exit; fi
@@ -114,7 +132,7 @@ install_image()
 
 	if [ $? -ne 0 ]; then exit; fi
 
-	install_first_run_script	
+	install_first_run_script ${node} ${num_master_nodes} ${num_worker_nodes}
 
 	if [ $? -ne 0 ]; then exit; fi
 
@@ -132,9 +150,10 @@ parse_arguments
 
 banner
 
-for (( node=1; node<=${num_nodes}; node++ ))
+for (( node=1; node<=${num_master_nodes}+${num_worker_nodes}; node++ ))
 do
+	num_nodes=$((${num_master_nodes}+${num_worker_nodes}))
 	insert_card_prompt ${node} ${num_nodes}
-	install_image
+	install_image ${node} ${num_master_nodes} ${num_worker_nodes}
 done
 
