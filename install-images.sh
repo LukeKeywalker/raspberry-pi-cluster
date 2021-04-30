@@ -17,17 +17,17 @@ script_dir=$(dirname $0)
 
 banner() 
 {
-	echo -e "$(tput setaf 2)
-   .~~.   .~~.
-  '. \ ' ' / .'$(tput setaf 1)
-   .~ .~~~..~.
-  : .~.'~'.~. :
- ~ (   ) (   ) ~   $(tput sgr0)Raspberry Pi 4 cluster$(tput setaf 1)
-( : '~'.~.'~' : )  $(tput sgr0)CentOS image installer$(tput setaf 1)
- ~ .~ (   ) ~. ~
-  (  : '~' :  )
-   '~ .~~~. ~'  
-       '~'
+echo -e "$(tput setaf 2)
+       .~~.   .~~.
+      '. \ ' ' / .'$(tput setaf 1)
+       .~ .~~~..~.    $(tput sgr0)                   _                          _ $(tput setaf 1)
+      : .~.'~'.~. :   $(tput sgr0)   ___ ___ ___ ___| |_ ___ ___ ___ _ _    ___|_|$(tput setaf 1)
+     ~ (   ) (   ) ~  $(tput sgr0)  |  _| .'|_ -| . | . | -_|  _|  _| | |  | . | |$(tput setaf 1)
+    ( : '~'.~.'~' : ) $(tput sgr0)  |_| |__,|___|  _|___|___|_| |_| |_  |  |  _|_|$(tput setaf 1)
+     ~ .~ (   ) ~. ~  $(tput sgr0)              |_|                 |___|  |_|    $(tput setaf 1)
+      (  : '~' :  )      $(tput sgr0)CentOS 7 cluster installer$(tput setaf 1)
+       '~ .~~~. ~'
+           '~'
 $(tput sgr0)"
 }
 
