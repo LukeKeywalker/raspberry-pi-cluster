@@ -79,16 +79,22 @@ sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
 # Creating K3S cluster with K3Sup
 
-master node assumed to have ip `192.168.1.16`
+master-1 node assumed to have ip `192.168.1.11`
+master-2 node assumed to have ip `192.168.1.12`
 
-## create master node
+## create first master node
 ```
-k3sup install --cluster --ip 192.168.1.16 --user root --ssh-key ~/.ssh/rpi-cluster 
+k3sup install --cluster --ip 192.168.1.11 --user root --ssh-key ~/.ssh/rpi-cluster 
+```
+
+## join second master node
+```
+k3sup join --ip 192.168.1.12 --user root --ssh-key <<ssh key>> --server-user root --server-ip 192.168.1.11
 ```
 
 ## join worker nodes to the cluster
 ```
-for i in {1..5}; do k3sup join --ip 192.168.1.1${i} --user root --ssh-key ~/.ssh/rpi-cluster --server-user root --server-ip 192.168.1.16; done
+for i in {1..4}; do k3sup join --ip 192.168.1.1${ 2 + i } --user root --ssh-key ~/.ssh/rpi-cluster --server-user root --server-ip 192.168.1.11; done
 ```
 
 # WireGuard
