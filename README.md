@@ -41,6 +41,7 @@ echo '192.168.1.{n + k}		worker-{n + k}.k3s.local	worker-node-{k}' >> /etc/hosts
 ## firewall setup
 
 ### master nodes
+for some reason first firewall-cmd is not applied and has to be re-applied manually after the k3sup had beed installed
 ```
 firewall-cmd --permanent --add-port=6443/tcp
 firewall-cmd --permanent --add-port=2379-2380/tcp
