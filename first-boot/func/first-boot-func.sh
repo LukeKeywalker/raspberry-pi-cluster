@@ -22,15 +22,14 @@ expand_filesystem()
 	rootfs-expand
 }
 
-create_user()
+random_password()
 {
-	# create user
-	useradd --create-home\
-		--groups wheel\
-		--shell /bin/bash\
-		${1}
-	# set default password
-	echo "${1}:${2}" | chpasswd
+	< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;
+}
+
+randomize_root_password()
+{
+	echo "root:$(random_password)" | chpasswd
 }
 
 add_master_node_firewall_rules()
@@ -124,3 +123,4 @@ add_worker_nodes_hosts()
 		echo "192.168.1.1$((${i}+${num_master_nodes}))	worker-${i}.k3s.local	worker-${i}" >> /etc/hosts
 	done
 }
+
