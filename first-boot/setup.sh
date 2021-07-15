@@ -22,7 +22,7 @@ else
 fi
 
 # steps common for both master and worker nodes #
-create_user 'user' 'qwert'
+randomize_root_password
 
 update_iptable_settings
 

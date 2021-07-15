@@ -8,6 +8,7 @@
 image_file=$1
 num_master_nodes=$2
 num_worker_nodes=$3
+rsa_pub_key=$4
 
 image_mountpoint='/mnt/centos'
 image_root_partition='/dev/mmcblk0p3'
@@ -34,26 +35,32 @@ $(tput sgr0)"
 
 print_usage() 
 {
-	echo "usage: $0 image_file num_master_nodes num_worker_nodes" 
+	echo "usage: $0 image_file num_master_nodes num_worker_nodes rsa_public_key" 
 }
 
 parse_arguments() 
 {
 	num_re='^[0-9]+$'
 
-	if [ -z "${image_file}" ]
+	if [ -z "${image_file}" ] || [[ ! -f ${image_file} ]]
 	then
 		print_usage
 		exit 1
 	fi
 
-	if [ -z "${num_master_nodes}" ] || ! [[ ${num_master_nodes} =~ ${num_re}  ]]
+	if [ -z "${num_master_nodes}" ] || [[ ! ${num_master_nodes} =~ ${num_re}  ]]
 	then
 		print_usage
 		exit 1
 	fi
 
-	if [ -z "${num_worker_nodes}" ] || ! [[ ${num_worker_nodes} =~ ${num_re}  ]]
+	if [ -z "${num_worker_nodes}" ] || [[ ! ${num_worker_nodes} =~ ${num_re}  ]]
+	then
+		print_usage
+		exit 1
+	fi
+
+	if [ -z "${rsa_pub_key}" ] || [[ ! -f ${rsa_pub_key} ]]
 	then
 		print_usage
 		exit 1
@@ -94,6 +101,15 @@ install_first_run_script()
 	node=${1}
 	num_master_nodes=${2}
 	num_worker_nodes=${3}
+
+	# copy current user's id_rsa.pub public key for ssh access
+	echo "copying public RSA key"
+	mkdir -p ${image_mountpoint}/root/.ssh
+	cp ${rsa_pub_key} ${image_mountpoint}/root/.ssh/authorized_keys
+
+	# copy hardened sshd configuration
+	echo "copying hardened sshd configuration"
+	cp config/sshd_config ${image_mountpoint}/etc/ssh/sshd_config
 	
 	# copy first run configuration script to
 	# the root folder, it will be picked up from
