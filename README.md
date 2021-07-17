@@ -80,25 +80,11 @@ sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
 # Creating K3S cluster with K3Sup
 
-master-1 node assumed to have ip `192.168.1.11`
-master-2 node assumed to have ip `192.168.1.12`
-
-## create first master node
-```
-k3sup install --cluster --ip 192.168.1.11 --user root --ssh-key ~/.ssh/rpi-cluster 
-```
-
-## join second master node
-```
-k3sup join --ip 192.168.1.12 --user root --ssh-key <<ssh key>> --server-user root --server-ip 192.168.1.11
-```
-
-## join worker nodes to the cluster
-```
-for i in {1..4}; do k3sup join --ip 192.168.1.1${ 2 + i } --user root --ssh-key ~/.ssh/rpi-cluster --server-user root --server-ip 192.168.1.11; done
-```
+see `setup-k3s.sh`
 
 # WireGuard
+
+`yum update -y` is needed before WireGuard can be compiled from sources
 
 wireguard needs to installes from source on raspberry pi (arm build not available in ElRepo)
 
@@ -116,7 +102,6 @@ install git
 ```
 yum install git -y
 ```
-seems like restart is needed at this point
 grab the code
 ```
 git clone https://git.zx2c4.com/wireguard-linux-compat
