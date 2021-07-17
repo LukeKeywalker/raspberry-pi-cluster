@@ -84,9 +84,9 @@ see `setup-k3s.sh`
 
 # WireGuard
 
-`yum update -y` is needed before WireGuard can be compiled from sources
+`yum update -y` is needed before WireGuard can be compiled from sources (there will be compilation errors otherwise)
 
-wireguard needs to installes from source on raspberry pi (arm build not available in ElRepo)
+wireguard needs to be installed from source on raspberry pi CentOS 7 (arm build not available in ElRepo)
 
 installing proper kernel development package:
 

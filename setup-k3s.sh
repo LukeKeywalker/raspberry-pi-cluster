@@ -34,7 +34,7 @@ parse_arguments()
 
 parse_arguments
 
-# install fist cluster with first master node at 192.168.1.11
+# install cluster with first master node at 192.168.1.11
 k3sup install --cluster \
        	--ip 192.168.1.11 \
 	--user root \
