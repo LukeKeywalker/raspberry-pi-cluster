@@ -147,3 +147,35 @@ Starting wg interface on the client:
 ```
 systemctl start wg-quick@wg-client0.service
 ```
+
+# Disabling Traefik ingress
+
+To do on the master nodes:
+
+Remove traefik helm chart resource
+```
+kubectl -n kube-system delete helmcharts.helm.cattle.io traefik
+```
+
+Stop the k3s service
+```
+service k3s stop
+```
+    
+Edit service file `/etc/systemd/system/k3s.service` and add this line to ExecStart:
+```
+    --no-deploy traefik \
+```
+* Reload the service file
+```
+systemctl daemon-reload
+```
+* Remove the manifest file from auto-deploy folder
+```
+rm /var/lib/rancher/k3s/server/manifests/traefik.yaml
+```
+* Start the k3s service:
+```
+service k3s start
+```
+
