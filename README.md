@@ -194,6 +194,12 @@ Error response from daemon: Get "https://container-registry/v2/": x509: certific
 ```
 [troubleshooting tls problem](https://github.com/kubernetes/ingress-nginx/issues/4644)
 
+Solving this TLS issue would be required in order to push images to the pod docker image registry. But this may not be necessary, and not allowing ingress into a docker registry is more secure. Solution would be to build the docker images inside another pod, and pushing it to the registry from inside the cluster. Then, only ingress to the CI/CD like Jenkins would be needed, and the image build process will be controlled by it.
+
+[Kaniko - docker image builder](https://devopscube.com/build-docker-image-kubernetes-pod/)
+[Kaniko - github](https://github.com/GoogleContainerTools/kaniko)
+
+
 ## TODO
 
 * Disable wifi with initial SD card installation
