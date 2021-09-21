@@ -78,11 +78,11 @@ setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 ```
 
-# Creating K3S cluster with K3Sup
+## Creating K3S cluster with K3Sup
 
 see `setup-k3s.sh`
 
-# WireGuard
+## WireGuard
 
 `yum update -y` is needed before WireGuard can be compiled from sources (there will be compilation errors otherwise)
 
@@ -148,10 +148,9 @@ Starting wg interface on the client:
 systemctl start wg-quick@wg-client0.service
 ```
 
-# Disabling Traefik ingress
+## Disabling Traefik ingress
 
-To do on the master nodes:
-
+Preferably install server with `--disable traefik` flag. If installed with it then do this on master nodes:
 Remove traefik helm chart resource
 ```
 kubectl -n kube-system delete helmcharts.helm.cattle.io traefik
@@ -179,3 +178,6 @@ rm /var/lib/rancher/k3s/server/manifests/traefik.yaml
 service k3s start
 ```
 
+## TODO
+
+* Disable wifi with initial SD card installation
