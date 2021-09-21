@@ -178,6 +178,22 @@ rm /var/lib/rancher/k3s/server/manifests/traefik.yaml
 service k3s start
 ```
 
+## Installing nging ingress controller
+
+[installation guide](https://kubernetes.github.io/ingress-nginx/deploy/)
+[k8s documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+
+After installing NGINX Ingress Controller following error appear when trying to log into the docker image repository pod:
+```
+$ docker login container-registry -u 'container-repository-user' -p 'K9MTmQ2Y54D6CvoX'
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get "https://container-registry/v2/": x509: certificate is valid for ingress.local, not container-registry
+```
+[troubleshooting tls problem](https://github.com/kubernetes/ingress-nginx/issues/4644)
+
+
 ## TODO
 
 * Disable wifi with initial SD card installation
+* Install nginx-ingress controller in dedicated namespace
+* Install container image repository in dedicated namespace
