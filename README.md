@@ -7,7 +7,6 @@ command for getting ip addresses for all rpis on the network:
 arp -e | grep "dc:a6:32" | awk '{ print $3 }'
 ```
 
-
 ## cgroup memory settings
 add this at the end of `/boot/cmdline.txt`
 
@@ -178,7 +177,11 @@ rm /var/lib/rancher/k3s/server/manifests/traefik.yaml
 service k3s start
 ```
 
-## Installing nging ingress controller
+## Running private docker image registry in the k8s pod
+
+[instructions](https://medium.com/swlh/deploy-your-private-docker-registry-as-a-pod-in-kubernetes-f6a489bf0180)
+
+## Installing nginx ingress controller
 
 [installation guide](https://kubernetes.github.io/ingress-nginx/deploy/)
 [k8s documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/)
@@ -190,7 +193,6 @@ WARNING! Using --password via the CLI is insecure. Use --password-stdin.
 Error response from daemon: Get "https://container-registry/v2/": x509: certificate is valid for ingress.local, not container-registry
 ```
 [troubleshooting tls problem](https://github.com/kubernetes/ingress-nginx/issues/4644)
-
 
 ## TODO
 
