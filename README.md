@@ -198,8 +198,8 @@ service k3s start
 
 create namespace for Nginx Ingress Controller and install Nginx Ingress Controller with helm:
 ```
-kubectl create namespace nginx-ingress-controller
-helm install --generate-name ingress-nginx/ingress-nginx --namespace nginx-ingress-controller
+kubectl create namespace ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
 ```
 
 After installing NGINX Ingress Controller following error appear when trying to log into the docker image repository pod:
