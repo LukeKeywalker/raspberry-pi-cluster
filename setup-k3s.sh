@@ -36,6 +36,7 @@ parse_arguments
 
 # install cluster with first master node at 192.168.1.11
 k3sup install --cluster \
+	--k3s-extra-args "--no-deploy traefik" \
        	--ip 192.168.1.11 \
 	--user root \
 	--ssh-key ${rsa_pub_key}
@@ -46,6 +47,7 @@ do
 	node_ip="192.168.1.$((10+${node}))"
 	k3sup join --ip ${node_ip} \
 		--server \
+	        --k3s-extra-args "--no-deploy traefik" \
 		--user root \
 		--ssh-key ${rsa_pub_key} \
 		--server-user root \
@@ -56,7 +58,8 @@ done
 for ((node=1; node<=${num_worker_nodes}; node++))
 do
 	node_ip="192.168.1.$((10+${num_master_nodes}+${node}))"
-	k3sup join --ip ${node_ip} \
+	k3sup join --ip ${node_ip} \ 
+	        --k3s-extra-args "--no-deploy traefik" \
 		--user root \
 		--ssh-key ${rsa_pub_key} \
 		--server-user root \
