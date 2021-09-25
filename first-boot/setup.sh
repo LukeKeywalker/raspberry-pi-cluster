@@ -24,11 +24,15 @@ fi
 # steps common for both master and worker nodes #
 randomize_root_password
 
+disable_firewalld
+
 update_iptable_settings
 
 disable_swap
 
 disable_selinux
+
+disable_wifi_adapter
 
 update_cgroup_memory_settings
 

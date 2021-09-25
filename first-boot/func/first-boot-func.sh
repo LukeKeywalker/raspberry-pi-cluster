@@ -75,6 +75,16 @@ disable_selinux()
 	sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 }
 
+disable_firewalld()
+{
+	systemctl disable firewalld --now
+}
+
+disable_wifi_adapter() 
+{
+	nmcli radio wifi off
+}
+
 update_cgroup_memory_settings()
 {
         # attach to the end of the line with sed and

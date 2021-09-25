@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: container-registry-pod
+  name: container-image-registry-pod
+  namespace: container-image-registry
   labels:
-    app: registry
+    app: container-image-registry
 spec:
   containers:
   - name: registry
     image: registry:2.6.2
     volumeMounts:
-    - name: repo-vol
+    - name: reg-vol
       mountPath: "/var/lib/registry"
     - name: certs-vol
       mountPath: "/certs"
@@ -29,23 +30,24 @@ spec:
     - name: REGISTRY_HTTP_TLS_KEY
       value: "/certs/tls.key"
   volumes:
-  - name: repo-vol
+  - name: reg-vol
     persistentVolumeClaim:
-      claimName: container-registry-pvc
+      claimName: container-image-registry-pvc
   - name: certs-vol
     secret:
-      secretName: container-registry-certs-secret
+      secretName: container-image-registry-certs-secret
   - name: auth-vol
     secret:
-      secretName: container-registry-auth-secret
+      secretName: container-image-registry-auth-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: container-registry
+  name: container-image-registry
+  namespace: container-image-registry
 spec:
   selector:
-    app: container-registry
+    app: container-image-registry
   ports:
   - port: 31000
     targetPort: 31000

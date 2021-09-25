@@ -77,6 +77,16 @@ setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 ```
 
+## disable WIFI adapter
+
+```
+nmcli radio wifi off
+```
+
+## disable firewalld
+
+systemctl disable firewalld --now
+
 ## Creating K3S cluster with K3Sup
 
 see `setup-k3s.sh`
@@ -186,6 +196,12 @@ service k3s start
 [installation guide](https://kubernetes.github.io/ingress-nginx/deploy/)
 [k8s documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 
+create namespace for Nginx Ingress Controller and install Nginx Ingress Controller with helm:
+```
+kubectl create namespace nginx-ingress-controller
+helm install --generate-name ingress-nginx/ingress-nginx --namespace nginx-ingress-controller
+```
+
 After installing NGINX Ingress Controller following error appear when trying to log into the docker image repository pod:
 ```
 $ docker login container-registry -u 'container-repository-user' -p 'K9MTmQ2Y54D6CvoX'
@@ -202,6 +218,5 @@ Solving this TLS issue would be required in order to push images to the pod dock
 
 ## TODO
 
-* Disable wifi with initial SD card installation
 * Install nginx-ingress controller in dedicated namespace
 * Install container image repository in dedicated namespace
