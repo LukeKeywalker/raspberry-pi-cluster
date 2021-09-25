@@ -1,19 +1,19 @@
 master-1 ansible_host=master-1 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
-master-2 ansible_host=master-2 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 worker-1 ansible_host=worker-1 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 worker-2 ansible_host=worker-2 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 worker-3 ansible_host=worker-3 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 worker-4 ansible_host=worker-4 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker-5 ansible_host=worker-5 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 
 [master_nodes]
 master-1
-master-2
 
 [worker_nodes]
 worker-1
 worker-2
 worker-3
 worker-4
+worker-5
 
 [all_nodes:children]
 master_nodes
