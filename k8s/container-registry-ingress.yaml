@@ -2,22 +2,22 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: container-image-registry-ingress
-  namespace: container-image-registry
+#  namespace: container-image-registry
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  tls:
-  - hosts:
-      - container-image-registry
-    secretName: container-image-registry-ingress-cert
+#  tls:
+#  - hosts:
+#      - container-image-registry
+#    secretName: container-image-registry-ingress-cert
   rules:
-  - host: container-image-registry
+  - host: docker-registry
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: container-image-registry
+            name: docker-registry
             port:
-              number: 31000
+              number: 5000
