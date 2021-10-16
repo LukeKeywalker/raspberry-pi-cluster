@@ -1,3 +1,8 @@
 CentOS-Userland-7-armv7hl-RaspberryPI-Minimal-4-2009-sda.raw.xz
 certs/
 auth/
+k8s/container-image-registry/cert-setup/*.crt
+k8s/container-image-registry/cert-setup/*.key
+k8s/container-image-registry/cert-setup/*.csr
+k8s/container-image-registry/cert-setup/*.srl
+*.swp

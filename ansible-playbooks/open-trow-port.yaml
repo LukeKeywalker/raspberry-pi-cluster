@@ -1,9 +1,0 @@
-- hosts: all_nodes
-  tasks:
-    - name: enable trow node port
-      firewalld:
-        zone: public
-        port: 31000/tcp
-        permanent: true
-        state: enabled
-      become: yes

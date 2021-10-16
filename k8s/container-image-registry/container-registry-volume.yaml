@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: container-image-registry-pv
+  name: container-image-registry
   namespace: container-image-registry
 spec:
   capacity:
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: container-image-registry-pvc
+  name: container-image-registry
   namespace: container-image-registry
 spec:
   accessModes:
