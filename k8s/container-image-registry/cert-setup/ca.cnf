@@ -1,0 +1,24 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+req_extensions = req_ext
+distinguished_name = dn
+
+x509_extensions = my_cert
+
+[my_cert]
+basicConstraints = CA:TRUE
+
+[dn]
+C = EA
+ST = EU
+O = BuildingSoftwareFactory
+emailAddress = lukasz.michniewicz@gmail.com
+CN = container-image-registry
+
+[req_ext]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = container-imgage-registry

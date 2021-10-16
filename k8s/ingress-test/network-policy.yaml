@@ -1,0 +1,23 @@
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: nginx
+#   namespace: default
+# spec:
+#   podSelector:
+#     matchLabels:
+#       app: nginx
+#   policyTypes:
+#   - Ingress
+#   ingress:
+#   - from:
+#     - namespaceSelector:
+#         matchLabels:
+#           name: ingress-nginx
+#     - podSelector:
+#         matchLabels:
+#           app.kubernetes.io/name: ingress-nginx
+#   - from:
+#     - podSelector:
+#         matchLabels:
+#           run: debug

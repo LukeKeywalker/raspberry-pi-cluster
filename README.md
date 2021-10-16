@@ -215,8 +215,40 @@ Solving this TLS issue would be required in order to push images to the pod dock
 [Kaniko - docker image builder](https://devopscube.com/build-docker-image-kubernetes-pod/)
 [Kaniko - github](https://github.com/GoogleContainerTools/kaniko)
 
+## Private Container Image Registry
 
-## TODO
+K3s allows for configuration of Containerd that works with self signed certificates. What is needed though is adding a self-generated CA certificate. This configuration needs to be copied into the following path for all the nodes that pull from the private registry:
+```
+/etc/rancher/k3s/registries.yaml
+```
 
-* Install nginx-ingress controller in dedicated namespace
-* Install container image repository in dedicated namespace
+registries.yaml:
+```
+mirrors:
+  docker.io:
+    endpoint:
+      - "https://container-image-registry:31000"
+configs:
+  "container-image-registry:31000":
+    auth:
+      username: registrar 
+      password: <<registry password>>
+    tls:
+      cert_file: /usr/local/share/ca-certificates/container-image-registry/container-image-registry.crt
+      key_file:  /usr/local/share/ca-certificates/container-image-registry/container-image-registry.key
+      ca_file:  /usr/local/share/ca-certificates/container-image-registry/ca.crt
+```
+[source](https://rancher.com/docs/k3s/latest/en/installation/private-registry/)
+
+also, `container-image-registry.crt`, `container-image-registry.key` and `ca.crt` need to be present on all the nodes using the private image registry.
+
+### Installing self signed certificate on Ubuntu
+
+Copy `ca.crt` into `/usr/local/share/ca-certificates/extra/` path:
+```
+sudo cp ca.crt /usr/local/share/ca-certificates/extra/ca.crt    
+```
+update ca certificates:
+```
+sudo update-ca-certificates
+```
