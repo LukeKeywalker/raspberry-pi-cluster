@@ -115,6 +115,11 @@ add_hosts()
 	add_worker_nodes_hosts ${num_master_nodes} ${num_worker_nodes}
 }
 
+set_ci_hostname()
+{
+	hostnamectl set-hostname jenkins-ci
+}
+
 add_master_nodes_hosts()
 {
 	# assumes that all cluster nodes have static ips
