@@ -1,4 +1,5 @@
 CentOS-Userland-7-armv7hl-RaspberryPI-Minimal-4-2009-sda.raw.xz
+ubuntu-20.04.3-preinstalled-server-arm64+raspi.img.xz
 certs/
 auth/
 k8s/container-image-registry/cert-setup/*.crt
