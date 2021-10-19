@@ -3,7 +3,7 @@ worker-1 ansible_host=worker-1 ansible_user=root ansible_ssh_private_key_file=~/
 worker-2 ansible_host=worker-2 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 worker-3 ansible_host=worker-3 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 worker-4 ansible_host=worker-4 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker-5 ansible_host=worker-5 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
+jenkins-ci ansible_host=jenkins-ci ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 
 [master_nodes]
 master-1
@@ -13,8 +13,11 @@ worker-1
 worker-2
 worker-3
 worker-4
-worker-5
+
+[ci_nodes]
+jenkins-ci
 
 [all_nodes:children]
 master_nodes
 worker_nodes
+ci_nodes
