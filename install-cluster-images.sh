@@ -11,7 +11,7 @@ num_worker_nodes=$3
 rsa_pub_key=$4
 
 image_mountpoint='/mnt/centos'
-image_root_partition='/dev/mmcblk0p3'
+image_root_partition='/dev/mmcblk0p2'
 image_device='/dev/mmcblk0'
 
 script_dir=$(dirname $0)
@@ -166,7 +166,7 @@ parse_arguments
 
 banner
 
-for (( node=1; node<=${num_master_nodes}+${num_worker_nodes}; node++ ))
+for (( node=2; node<=${num_master_nodes}+${num_worker_nodes}; node++ ))
 do
 	num_nodes=$((${num_master_nodes}+${num_worker_nodes}))
 	insert_card_prompt ${node} ${num_nodes}

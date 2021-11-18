@@ -9,7 +9,7 @@ image_file=$1
 rsa_pub_key=$2
 
 image_mountpoint='/mnt/centos'
-image_root_partition='/dev/mmcblk0p3'
+image_root_partition='/dev/mmcblk0p2'
 image_device='/dev/mmcblk0'
 
 script_dir=$(dirname $0)
