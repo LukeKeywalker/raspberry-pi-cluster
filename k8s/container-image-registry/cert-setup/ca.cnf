@@ -21,4 +21,4 @@ CN = container-image-registry
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = container-imgage-registry
+DNS.1 = container-image-registry

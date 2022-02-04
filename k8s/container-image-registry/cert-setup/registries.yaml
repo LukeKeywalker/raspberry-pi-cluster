@@ -1,0 +1,13 @@
+mirrors:
+  docker.io:
+    endpoint:
+      - "https://container-image-registry:31000"
+configs:
+  "container-image-registry:31000":
+    auth:
+      username: registrar 
+      password: <<hidden>> 
+    tls:
+      cert_file: /usr/local/share/ca-certificates/container-image-registry/container-image-registry.crt
+      key_file:  /usr/local/share/ca-certificates/container-image-registry/container-image-registry.key
+      ca_file:  /usr/local/share/ca-certificates/container-image-registry/ca.crt

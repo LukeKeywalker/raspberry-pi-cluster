@@ -7,3 +7,4 @@ k8s/container-image-registry/cert-setup/*.key
 k8s/container-image-registry/cert-setup/*.csr
 k8s/container-image-registry/cert-setup/*.srl
 *.swp
+.idea/
