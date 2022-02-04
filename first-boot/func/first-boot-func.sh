@@ -82,6 +82,7 @@ disable_firewalld()
 
 disable_wifi_adapter() 
 {
+	apt install network-manager -y
 	nmcli radio wifi off
 }
 
@@ -89,11 +90,11 @@ update_cgroup_memory_settings()
 {
         # attach to the end of the line with sed and
         # store result in temporary file
-        sed '$s/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/cmdline.txt > cmdline.tmp
+        sed '$s/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/firmware/cmdline.txt > cmdline.tmp
 
         # move file with attached cgroup settings back
         # to /boot/cmdline.txt
-        mv -f cmdline.tmp /boot/cmdline.txt
+        mv -f cmdline.tmp /boot/firmware/cmdline.txt
 }
 
 set_master_node_hostname()
