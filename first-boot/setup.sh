@@ -1,8 +1,3 @@
-################################################
-# script for setting up CentOS 7 as a k8s host #
-# on a raspberry pi hardware                   # 
-################################################
-
 #!/bin/bash
 
 script_dir=$(dirname $0)
@@ -24,13 +19,13 @@ fi
 # steps common for both master and worker nodes #
 randomize_root_password
 
-disable_firewalld
+# disable_firewalld
 
 update_iptable_settings
 
 disable_swap
 
-disable_selinux
+# disable_selinux
 
 disable_wifi_adapter
 
@@ -41,6 +36,8 @@ add_hosts ${NUM_MASTER_NODES} ${NUM_WORKER_NODES}
 cleanup
 
 expand_filesystem
+
+mount_data_storage
 
 shutdown -r now
 

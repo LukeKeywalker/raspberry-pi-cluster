@@ -1,8 +1,3 @@
-################################################
-# script for setting up CentOS 7 as a k8s host #
-# on a raspberry pi hardware                   # 
-################################################
-
 #!/bin/bash
 
 script_dir=$(dirname $0)
@@ -18,13 +13,13 @@ set_ci_hostname
 
 randomize_root_password
 
-disable_firewalld
+# disable_firewalld
 
 update_iptable_settings
 
 disable_swap
 
-disable_selinux
+# disable_selinux
 
 disable_wifi_adapter
 

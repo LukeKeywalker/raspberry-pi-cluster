@@ -146,3 +146,12 @@ add_worker_nodes_hosts()
 	done
 }
 
+mount_data_storage()
+{
+	storage_uuid=$(blkid | grep /dev/sda1 | awk '{ print $2 }')
+	if [ "$storage_uuid" != "" ]
+	then
+		mkdir -p /data
+		echo $storage_uuid /data ext4 defaults 0 2 >> /etc/fstab
+	fi
+}

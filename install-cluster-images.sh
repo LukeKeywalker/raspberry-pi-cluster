@@ -166,7 +166,7 @@ parse_arguments
 
 banner
 
-for (( node=2; node<=${num_master_nodes}+${num_worker_nodes}; node++ ))
+for (( node=1; node<=${num_master_nodes}+${num_worker_nodes}; node++ ))
 do
 	num_nodes=$((${num_master_nodes}+${num_worker_nodes}))
 	insert_card_prompt ${node} ${num_nodes}
