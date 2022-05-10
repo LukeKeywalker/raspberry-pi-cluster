@@ -252,3 +252,9 @@ update ca certificates:
 ```
 sudo update-ca-certificates
 ```
+
+## Limiting number of SD card writes
+
+source: [link](https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards/)
+
+
