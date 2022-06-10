@@ -1,8 +1,9 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: sd-storage
+  name: hdd-storage
   namespace: container-image-registry
 provisioner: kubernetes.io/gce-pd
 parameters:
-  type: pd-ssd
+  type: pd-standard
+  fstype: ext4

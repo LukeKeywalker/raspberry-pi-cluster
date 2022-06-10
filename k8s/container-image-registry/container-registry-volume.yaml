@@ -9,7 +9,15 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /tmp/registry
+    path: /data/registry
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: container-image-registry-node
+            operator: In
+            values:
+            - "true"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

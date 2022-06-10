@@ -39,6 +39,8 @@ spec:
   - name: auth-vol
     secret:
       secretName: container-image-registry-auth
+  nodeSelector:
+    storage: hdd
 ---
 apiVersion: v1
 kind: Service
